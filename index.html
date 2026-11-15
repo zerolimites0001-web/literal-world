@@ -6,21 +6,11 @@
 <title>Mundo Infinito</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-
 html,body{margin:0;height:100%;overflow:hidden;background:#000;font-family:system-ui,sans-serif;color:#fff;user-select:none;touch-action:none}
 canvas{display:block;width:100%;height:100%}
-
-#hud{
-  position:fixed;top:8px;left:8px;
-  font-family:'VT323', monospace;font-size:16px;line-height:1.2;
-  background:rgba(0,0,0,.5);padding:8px 12px;border-radius:4px;
-  border:2px solid rgba(255,255,255,.2);
-  pointer-events:none;white-space:pre;display:none;
-  text-shadow: 1px 1px 0 #000;
-}
-
+#hud{position:fixed;top:8px;left:8px;font-family:'VT323',monospace;font-size:16px;line-height:1.2;background:rgba(0,0,0,.5);padding:8px 12px;border-radius:4px;border:2px solid rgba(255,255,255,.2);pointer-events:none;white-space:pre;display:none;text-shadow:1px 1px 0 #000}
 #menu{position:fixed;inset:0;background:rgba(10,20,30,.85);display:flex;align-items:center;justify-content:center;z-index:10}
-.box{width:min(92vw,440px);max-height:92vh;overflow:auto;background:#152436;padding:20px;border-radius:12px;box-shadow:0 10px 40px #000a; border: 2px solid #2f8f4e;}
+.box{width:min(92vw,440px);max-height:92vh;overflow:auto;background:#152436;padding:20px;border-radius:12px;box-shadow:0 10px 40px #000a;border:2px solid #2f8f4e}
 h2{margin:0 0 10px}
 label{font-size:13px;opacity:.8}
 input{width:100%;box-sizing:border-box;padding:8px;margin:4px 0 10px;border-radius:6px;border:1px solid #345;background:#0b1624;color:#fff}
@@ -28,42 +18,32 @@ button{padding:9px 14px;border:0;border-radius:7px;background:#2f8f4e;color:#fff
 button.alt{background:#355}button.del{background:#8a2c2c}
 .save{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#0d1b2a;padding:6px 8px;border-radius:6px;margin:4px 0;font-size:14px}
 .save small{opacity:.6}
-
 #pad{position:fixed;inset:0;pointer-events:none;display:none;z-index:5}
 .joy{position:absolute;left:24px;bottom:24px;width:130px;height:130px;border-radius:50%;background:rgba(0,0,0,.3);border:2px solid rgba(255,255,255,.4);pointer-events:auto}
 .knob{position:absolute;width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.5);left:37px;top:37px;pointer-events:none}
-
-.btn{
-  position:absolute;width:80px;height:80px;border-radius:50%;
-  background:rgba(0,0,0,.4);
-  border:2px solid rgba(255,255,255,.5);
-  color:#fff;font-family:'VT323', monospace;font-size:18px;
-  pointer-events:auto;display:flex;align-items:center;justify-content:center;
-  text-align:center;text-shadow:1px 1px 0 #000;
-  box-shadow: inset 0 0 10px rgba(0,0,0,.5);
-  -webkit-tap-highlight-color: transparent;
-}
+.btn{position:absolute;width:80px;height:80px;border-radius:50%;background:rgba(0,0,0,.4);border:2px solid rgba(255,255,255,.5);color:#fff;font-family:'VT323',monospace;font-size:18px;pointer-events:auto;display:flex;align-items:center;justify-content:center;text-align:center;text-shadow:1px 1px 0 #000;box-shadow:inset 0 0 10px rgba(0,0,0,.5);-webkit-tap-highlight-color:transparent}
 .btn:active{background:rgba(255,255,255,.2)}
-
-#bPause,#bFull{
-  position:fixed;top:8px;z-index:6;display:none;
-  padding:6px 10px;background:rgba(0,0,0,.5);
-  border:2px solid rgba(255,255,255,.3);border-radius:4px;
-  color:#fff;font-family:'VT323', monospace;font-size:20px;
-  -webkit-tap-highlight-color: transparent;
-}
-#bPause{right:8px;}
-#bFull{right:60px;}
-
-#toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:6px 12px;border-radius:6px;opacity:0;transition:opacity .3s;z-index:20;pointer-events:none; font-family:'VT323', monospace; font-size:18px;}
+#bPause,#bFull,#bPalette{position:fixed;top:8px;z-index:6;display:none;padding:6px 10px;background:rgba(0,0,0,.5);border:2px solid rgba(255,255,255,.3);border-radius:4px;color:#fff;font-family:'VT323',monospace;font-size:20px;-webkit-tap-highlight-color:transparent}
+#bPause{right:8px}#bFull{right:60px}#bPalette{right:112px}
+#palette{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:none;gap:4px;z-index:7;background:rgba(0,0,0,.6);padding:6px;border-radius:8px;border:2px solid rgba(255,255,255,.2)}
+.pal-item{width:36px;height:36px;border-radius:4px;border:2px solid rgba(255,255,255,.3);cursor:pointer;pointer-events:auto}
+.pal-item.sel{border-color:#2f8f4e;box-shadow:0 0 8px #2f8f4e}
+#toast{position:fixed;top:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.7);padding:6px 12px;border-radius:6px;opacity:0;transition:opacity .3s;z-index:20;pointer-events:none;font-family:'VT323',monospace;font-size:18px}
+#crosshair{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;pointer-events:none;z-index:4;display:none}
+#crosshair::before,#crosshair::after{content:'';position:absolute;background:rgba(255,255,255,.8)}
+#crosshair::before{left:9px;top:0;width:2px;height:20px}
+#crosshair::after{top:9px;left:0;width:20px;height:2px}
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
 <div id="hud"></div>
+<div id="crosshair"></div>
 <button id="bPause">II</button>
 <button id="bFull">⛶</button>
+<button id="bPalette">🎨</button>
 <div id="toast"></div>
+<div id="palette"></div>
 <div id="pad">
   <div id="joy" class="joy"><div id="knob" class="knob"></div></div>
   <div class="btn" id="bJump" style="bottom:24px;right:24px">Pular</div>
@@ -80,7 +60,7 @@ button.alt{background:#355}button.del{background:#8a2c2c}
       <button id="bNew">Criar mundo</button>
       <h3>Mundos salvos</h3>
       <div id="saves"></div>
-      <p style="font-size:12px;opacity:.7">WASD mover · Shift correr · Espaço pular · Clique esq. cavar · Clique dir. construir · Esc pausar. No celular: joystick, arrastar na tela para olhar.</p>
+      <p style="font-size:12px;opacity:.7">WASD mover · Shift correr · Espaço pular · Clique esq. cavar · Clique dir. construir · Esc pausar. Teclas 1-0 trocam bloco.</p>
     </div>
     <div id="pauseMenu" style="display:none">
       <h2>Pausado</h2>
@@ -90,7 +70,6 @@ button.alt{background:#355}button.del{background:#8a2c2c}
     </div>
   </div>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const $ = s => document.querySelector(s);
@@ -104,6 +83,7 @@ function hashStr(s){let h=2166136261;for(const c of String(s)){h^=c.charCodeAt(0
 function rng(seed){let s=seed>>>0;return()=>{s+=0x6D2B79F5;let t=s;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296;};}
 function h2(x,z,s){let h=Math.imul(x,374761393)^Math.imul(z,668265263)^s;h=Math.imul(h^(h>>>13),1274126177);h^=h>>>16;return(h>>>0)/4294967296;}
 const ek = (x, z) => (x + 32768) * 65536 + (z + 32768);
+const vk = (x, y, z) => `${x},${y},${z}`;
 
 /* ---------- Perlin ---------- */
 const G8 = [[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];
@@ -133,6 +113,20 @@ const BIO=[
  {n:'Montanha',tint:[.50,.50,.47],leaf:[.3,.45,.3], tree:'pine',dens:.02}
 ];
 
+/* ---------- Blocos ---------- */
+const BLOCK_TYPES = [
+  {name:'Grama', color:0x5cb85c},
+  {name:'Terra', color:0x8b5a2b},
+  {name:'Pedra', color:0x808080},
+  {name:'Areia', color:0xe0d080},
+  {name:'Madeira', color:0x6b4423},
+  {name:'Folha', color:0x2e8b2e},
+  {name:'Água', color:0x2080c0},
+  {name:'Lava', color:0xc03000},
+  {name:'Gelo', color:0x80c0e0},
+  {name:'Obsidiana', color:0x201030}
+];
+
 /* ---------- Mundo ---------- */
 class World{
   constructor(seed,edits){
@@ -140,6 +134,7 @@ class World{
     this.nA=new Noise(this.s+1);this.nB=new Noise(this.s+2);this.nC=new Noise(this.s+3);
     this.nD=new Noise(this.s+4);this.nE=new Noise(this.s+5);this.nF=new Noise(this.s+6);
     this.edits=edits;
+    this.voxels=new Map();
   }
   raw(x,z){
     const cont=this.nA.fbm(x*.0035,z*.0035,4);
@@ -163,6 +158,14 @@ class World{
     const a=this.height(x0,z0),b=this.height(x0+1,z0),c=this.height(x0,z0+1),d=this.height(x0+1,z0+1);
     return (a*(1-fx)+b*fx)*(1-fz)+(c*(1-fx)+d*fx)*fz;
   }
+  getVoxel(x,y,z){ return this.voxels.get(vk(x,y,z)); }
+  setVoxel(x,y,z,data){
+    const k=vk(x,y,z);
+    if(data) this.voxels.set(k,data);
+    else this.voxels.delete(k);
+    return k;
+  }
+  hasVoxel(x,y,z){ return this.voxels.has(vk(x,y,z)); }
 }
 function findSpawn(w){
   for(let r=0;r<400;r+=6)for(let a=0;a<8;a++){
@@ -188,13 +191,24 @@ function pixTex(fn,size=16,nearest=true){
 }
 const terrainTex=pixTex((i,j)=>{const v=165+h2(i,j,11)*70|0;return[v,v,v,255];});
 const barkTex=pixTex((i,j)=>{const v=h2(i,j>>1,4);return[85+v*40|0,60+v*25|0,35+v*15|0,255];});
-const leafTex=pixTex((i,j)=>{
-  const g=165+h2(j,i,6)*75|0;return[g,g,g,255];
-});
+const leafTex=pixTex((i,j)=>{const g=165+h2(j,i,6)*75|0;return[g,g,g,255];});
 const waterTex=pixTex((i,j)=>{const v=128+(Math.sin(i*.9)*Math.cos(j*.7)*40+h2(i,j,3)*30-15)|0;return[v,v,v,255];},64,false);
 waterTex.repeat.set(10,10);
 
-/* ---------- Renderer / cena ---------- */
+function makeVoxelTex(color){
+  const c=document.createElement('canvas'); c.width=c.height=16;
+  const cx=c.getContext('2d');
+  const col=new THREE.Color(color);
+  const r=col.r*255|0, g=col.g*255|0, b=col.b*255|0;
+  cx.fillStyle=`rgb(${r},${g},${b})`; cx.fillRect(0,0,16,16);
+  cx.fillStyle='rgba(0,0,0,0.25)'; cx.fillRect(0,0,16,2); cx.fillRect(0,0,2,16);
+  cx.fillStyle='rgba(255,255,255,0.12)'; cx.fillRect(0,14,16,2); cx.fillRect(14,0,2,16);
+  const t=new THREE.CanvasTexture(c);
+  t.magFilter=THREE.NearestFilter; t.minFilter=THREE.NearestMipmapNearestFilter;
+  return t;
+}
+
+/* ---------- Renderer ---------- */
 const canvas=$('#c');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:false,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
@@ -209,7 +223,8 @@ const sun=new THREE.DirectionalLight(0xffffff,.8);sun.position.set(.5,1,.3);scen
 const sharedGeo={
   trunk:new THREE.CylinderGeometry(.22,.3,1,6).translate(0,.5,0),
   blob:new THREE.IcosahedronGeometry(1,1),
-  cone:new THREE.ConeGeometry(1,1,7).translate(0,.5,0)
+  cone:new THREE.ConeGeometry(1,1,7).translate(0,.5,0),
+  box:new THREE.BoxGeometry(1,1,1)
 };
 {const bp=sharedGeo.blob.attributes.position;
  for(let i=0;i<bp.count;i++){const k=1+(h2(i,7,3)-.5)*.35;bp.setXYZ(i,bp.getX(i)*k,bp.getY(i)*k,bp.getZ(i)*k);}}
@@ -224,11 +239,59 @@ const water=new THREE.Mesh(
 );
 scene.add(water);
 
+/* ---------- VOXEL RENDERIZER OTIMIZADO (InstancedMesh por tipo) ---------- */
+const voxelMats = BLOCK_TYPES.map(bt => new THREE.MeshLambertMaterial({map: makeVoxelTex(bt.color)}));
+let selectedBlockType = 0;
+
+// Para cada tipo de bloco, um InstancedMesh com capacidade dinâmica
+const MAX_PER_TYPE = 2000;
+const voxelInstanced = BLOCK_TYPES.map((bt, i) => {
+  const im = new THREE.InstancedMesh(sharedGeo.box, voxelMats[i], MAX_PER_TYPE);
+  im.count = 0;
+  im.frustumCulled = false;
+  im.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+  scene.add(im);
+  return im;
+});
+
+// Mapa: vk -> {type, idx} para localizar cada voxel no InstancedMesh
+const voxelIndex = new Map();
+
+function rebuildInstanced(type){
+  const im = voxelInstanced[type];
+  const list = [...voxelIndex.entries()].filter(([k,v]) => v.type === type);
+  im.count = Math.min(list.length, MAX_PER_TYPE);
+  list.slice(0, MAX_PER_TYPE).forEach(([k,v], i) => {
+    const [x,y,z] = k.split(',').map(Number);
+    m4.makeTranslation(x+0.5, y+0.5, z+0.5);
+    im.setMatrixAt(i, m4);
+    v.idx = i;
+  });
+  im.instanceMatrix.needsUpdate = true;
+}
+
+function addVoxel(x,y,z,type){
+  const key = vk(x,y,z);
+  voxelIndex.set(key, {type, idx: -1});
+  rebuildInstanced(type);
+}
+
+function removeVoxel(x,y,z){
+  const key = vk(x,y,z);
+  const entry = voxelIndex.get(key);
+  if(!entry) return;
+  voxelIndex.delete(key);
+  rebuildInstanced(entry.type);
+}
+
+// Matriz temporária compartilhada
+const m4 = new THREE.Matrix4();
+
 /* ---------- Chunks ---------- */
 let world=null,cur=null,state='menu';
 const P={x:0,y:0,z:0,vy:0,yaw:0,pitch:0,onGround:false};
 const chunks=new Map(),queue=[],queued=new Set();
-const m4=new THREE.Matrix4(),q4=new THREE.Quaternion(),p3=new THREE.Vector3(),s3=new THREE.Vector3();
+const q4=new THREE.Quaternion(),p3=new THREE.Vector3(),s3=new THREE.Vector3();
 function put(mesh,i,x,y,z,sx,sy,sz,color){
   p3.set(x,y,z);s3.set(sx,sy,sz);m4.compose(p3,q4,s3);mesh.setMatrixAt(i,m4);
   if(color)mesh.setColorAt(i,color);
@@ -278,7 +341,9 @@ function buildChunk(cx,cz){
   geo.setAttribute('uv',new THREE.BufferAttribute(uv,2));
   geo.setIndex(new THREE.BufferAttribute(idx,1));
   const group=new THREE.Group();
-  group.add(new THREE.Mesh(geo,mats.terrain));
+  const terrainMesh=new THREE.Mesh(geo,mats.terrain);
+  terrainMesh.userData.isTerrain = true;
+  group.add(terrainMesh);
   group.userData.geo=geo;
 
   const trees=[];
@@ -292,7 +357,6 @@ function buildChunk(cx,cz){
     trees.push({x:x+(h2(x,z,5)-.5)*.7,y:h,z:z+(h2(z,x,6)-.5)*.7,s:.8+h2(x,z,9)*.5,type:b.tree,leaf:b.leaf,j:(h2(x,z,13)-.5)*.15});
   }
   const dec=trees.filter(t=>t.type==='deci'),pin=trees.filter(t=>t.type==='pine');
-  
   if(dec.length){
     const tr=new THREE.InstancedMesh(sharedGeo.trunk,mats.bark,dec.length);
     const lf=new THREE.InstancedMesh(sharedGeo.blob,mats.leaf,dec.length*3);
@@ -305,7 +369,6 @@ function buildChunk(cx,cz){
     });
     group.add(finish(tr),finish(lf));
   }
-  
   if(pin.length){
     const tr=new THREE.InstancedMesh(sharedGeo.trunk,mats.bark,pin.length);
     const cn=new THREE.InstancedMesh(sharedGeo.cone,mats.leaf,pin.length*4);
@@ -333,36 +396,208 @@ function stream(){
   }
   for(const[k,c]of chunks)if(Math.max(Math.abs(c.cx-pcx),Math.abs(c.cz-pcz))>RD+2){unloadChunk(c);chunks.delete(k);}
   queue.sort((a,b)=>((a.cx-pcx)**2+(a.cz-pcz)**2)-((b.cx-pcx)**2+(b.cz-pcz)**2));
-  for(let n=0;n<3&&queue.length;n++){
+  for(let n=0;n<2&&queue.length;n++){
     const q=queue.shift();queued.delete(q.cx+','+q.cz);
     if(Math.max(Math.abs(q.cx-pcx),Math.abs(q.cz-pcz))>RD+1)continue;
     chunks.set(q.cx+','+q.cz,buildChunk(q.cx,q.cz));
   }
 }
 
-/* ---------- Construir / cavar ---------- */
-const ray=new THREE.Raycaster(),center=new THREE.Vector2(0,0);
+/* ---------- RAYCAST: CAVAR / CONSTRUIR ---------- */
+const ray=new THREE.Raycaster();
+const center=new THREE.Vector2(0,0);
+
 function brush(sign){
   if(!world||state!=='play')return;
   ray.setFromCamera(center,camera);
-  const list=[...chunks.values()].map(c=>c.group.children[0]);
-  const hits=ray.intersectObjects(list,false);
-  if(!hits.length)return;
-  const p=hits[0].point;
-  if(p.distanceTo(camera.position)>9)return;
-  const vx=Math.round(p.x),vz=Math.round(p.z);
-  const dirty=new Set();
-  for(let dz=-2;dz<=2;dz++)for(let dx=-2;dx<=2;dx++){
-    const w=1-Math.hypot(dx,dz)/2.6;if(w<=0)continue;
-    const x=vx+dx,z=vz+dz,k=ek(x,z);
-    world.edits.set(k,(world.edits.get(k)||0)+sign*w);
-    for(const cx of[Math.floor((x-1)/CS),Math.floor((x+1)/CS)])
-      for(const cz of[Math.floor((z-1)/CS),Math.floor((z+1)/CS)])dirty.add(cx+','+cz);
+  ray.far = 12;
+
+  const targets = [];
+  for(const c of chunks.values()){
+    const t = c.group.children[0];
+    if(t && t.userData.isTerrain) targets.push(t);
   }
-  for(const key of dirty){
-    const c=chunks.get(key);
-    if(c){unloadChunk(c);chunks.set(key,buildChunk(c.cx,c.cz));}
+  for(const im of voxelInstanced) if(im.count > 0) targets.push(im);
+
+  const hits = ray.intersectObjects(targets, false);
+  if(!hits.length){ toast('Nada para atingir'); return; }
+
+  const hit = hits[0];
+
+  if(hit.object.isInstancedMesh){
+    // Voxel construído
+    const instanceId = hit.instanceId;
+    const type = voxelInstanced.indexOf(hit.object);
+    
+    // Encontra qual voxel é esse percorrendo voxelIndex
+    let targetKey = null;
+    for(const [k,v] of voxelIndex){
+      if(v.type === type && v.idx === instanceId){ targetKey = k; break; }
+    }
+    if(!targetKey) return;
+    
+    const [vx,vy,vz] = targetKey.split(',').map(Number);
+
+    if(sign < 0){
+      // Remover
+      world.setVoxel(vx,vy,vz,null);
+      removeVoxel(vx,vy,vz);
+      toast('Bloco removido');
+    } else {
+      // Construir na face
+      const n = hit.face.normal.clone().applyQuaternion(hit.object.quaternion);
+      const bx = vx + Math.round(n.x);
+      const by = vy + Math.round(n.y);
+      const bz = vz + Math.round(n.z);
+      if(world.hasVoxel(bx,by,bz)){ toast('Já tem bloco'); return; }
+      // Verifica se não está dentro do jogador
+      const halfW = 0.3;
+      if(bx+1 > P.x-halfW && bx < P.x+halfW &&
+         by+1 > P.y-EYE && by < P.y-EYE+1.8 &&
+         bz+1 > P.z-halfW && bz < P.z+halfW){ toast('Dentro de você'); return; }
+      world.setVoxel(bx,by,bz,{type:selectedBlockType});
+      addVoxel(bx,by,bz,selectedBlockType);
+    }
+  } else {
+    // Terreno
+    if(sign < 0){
+      // Cavar terreno
+      const p = hit.point;
+      const vx=Math.round(p.x), vz=Math.round(p.z);
+      const dirty=new Set();
+      for(let dz=-2;dz<=2;dz++)for(let dx=-2;dx<=2;dx++){
+        const w=1-Math.hypot(dx,dz)/2.6;if(w<=0)continue;
+        const x=vx+dx,z=vz+dz,k=ek(x,z);
+        world.edits.set(k,(world.edits.get(k)||0)-w);
+        for(const cx of[Math.floor((x-1)/CS),Math.floor((x+1)/CS)])
+          for(const cz of[Math.floor((z-1)/CS),Math.floor((z+1)/CS)])dirty.add(cx+','+cz);
+      }
+      for(const key of dirty){
+        const c=chunks.get(key);
+        if(c){unloadChunk(c);chunks.set(key,buildChunk(c.cx,c.cz));}
+      }
+    } else {
+      // Construir em cima do terreno — usa ponto de impacto
+      const p = hit.point;
+      const n = hit.face.normal;
+      const bx = Math.floor(p.x - n.x*0.001 + n.x*0.5);
+      const by = Math.floor(p.y + n.y*0.5);
+      const bz = Math.floor(p.z - n.z*0.001 + n.z*0.5);
+      // Ajusta para garantir que fica na face
+      let fx=bx, fy=by, fz=bz;
+      if(Math.abs(n.y) > 0.5) fy = Math.round(p.y + n.y*0.5);
+      if(world.hasVoxel(fx,fy,fz)){ toast('Já tem bloco'); return; }
+      const halfW = 0.3;
+      if(fx+1 > P.x-halfW && fx < P.x+halfW &&
+         fy+1 > P.y-EYE && fy < P.y-EYE+1.8 &&
+         fz+1 > P.z-halfW && fz < P.z+halfW){ toast('Dentro de você'); return; }
+      world.setVoxel(fx,fy,fz,{type:selectedBlockType});
+      addVoxel(fx,fy,fz,selectedBlockType);
+    }
   }
+}
+
+/* ---------- COLISÃO OTIMIZADA (só voxels próximos) ---------- */
+const PLAYER_W = 0.6;
+const PLAYER_H = 1.8;
+const HALF_W = PLAYER_W/2;
+const PR = 1.5; // raio de busca de voxels próximos
+
+function collideVoxels(){
+  let px = P.x, py = P.y - EYE, pz = P.z;
+  let vy = P.vy;
+  let grounded = false;
+
+  // Só consulta voxels próximos (raio limitado)
+  const minX = Math.floor(px - HALF_W) - 1;
+  const maxX = Math.floor(px + HALF_W) + 1;
+  const minZ = Math.floor(pz - HALF_W) - 1;
+  const maxZ = Math.floor(pz + HALF_W) + 1;
+  const minY = Math.floor(py) - 1;
+  const maxY = Math.floor(py + PLAYER_H) + 1;
+
+  // Coleta lista de voxels próximos (rápido)
+  const nearby = [];
+  for(let vx=minX; vx<=maxX; vx++){
+    for(let vz=minZ; vz<=maxZ; vz++){
+      for(let vy2=minY; vy2<=maxY; vy2++){
+        if(world.voxels.has(vk(vx,vy2,vz))){
+          nearby.push([vx,vy2,vz]);
+        }
+      }
+    }
+  }
+
+  // Resolve colisões (2 iterações para casos de canto)
+  for(let iter=0; iter<2; iter++){
+    let collided = false;
+    for(const [vx,vy2,vz] of nearby){
+      const bMinX = vx, bMaxX = vx+1;
+      const bMinZ = vz, bMaxZ = vz+1;
+      const bMinY = vy2, bMaxY = vy2+1;
+
+      const pMinX = px - HALF_W, pMaxX = px + HALF_W;
+      const pMinZ = pz - HALF_W, pMaxZ = pz + HALF_W;
+      const pMinY = py, pMaxY = py + PLAYER_H;
+
+      if(pMaxX <= bMinX || pMinX >= bMaxX) continue;
+      if(pMaxY <= bMinY || pMinY >= bMaxY) continue;
+      if(pMaxZ <= bMinZ || pMinZ >= bMaxZ) continue;
+
+      const penX1 = pMaxX - bMinX;
+      const penX2 = bMaxX - pMinX;
+      const penY1 = pMaxY - bMinY;
+      const penY2 = bMaxY - pMinY;
+      const penZ1 = pMaxZ - bMinZ;
+      const penZ2 = bMaxZ - pMinZ;
+
+      const minPen = Math.min(penX1,penX2,penY1,penY2,penZ1,penZ2);
+
+      if(minPen === penY1){
+        py += penY1;
+        if(vy < 0) vy = 0;
+        grounded = true;
+      } else if(minPen === penY2){
+        py -= penY2;
+        if(vy > 0) vy = 0;
+      } else if(minPen === penX1){
+        px -= penX1;
+      } else if(minPen === penX2){
+        px += penX2;
+      } else if(minPen === penZ1){
+        pz -= penZ1;
+      } else {
+        pz += penZ2;
+      }
+      collided = true;
+    }
+    if(!collided) break;
+  }
+
+  // Ground check: procura bloco logo abaixo
+  if(!grounded && vy <= 0){
+    const checkY = Math.floor(py - 0.05);
+    const vx0 = Math.floor(px - HALF_W*0.8);
+    const vx1 = Math.floor(px + HALF_W*0.8);
+    const vz0 = Math.floor(pz - HALF_W*0.8);
+    const vz1 = Math.floor(pz + HALF_W*0.8);
+    for(let vx=vx0; vx<=vx1; vx++){
+      for(let vz=vz0; vz<=vz1; vz++){
+        if(world.voxels.has(vk(vx, checkY, vz))){
+          if(py >= checkY+1 - 0.15 && py <= checkY+1 + 0.15){
+            py = checkY+1;
+            if(vy < 0) vy = 0;
+            grounded = true;
+            break;
+          }
+        }
+      }
+      if(grounded) break;
+    }
+  }
+
+  P.x = px; P.y = py + EYE; P.z = pz; P.vy = vy;
+  if(grounded) P.onGround = true;
 }
 
 /* ---------- Entrada ---------- */
@@ -375,6 +610,14 @@ addEventListener('keydown',e=>{
   keys[e.code]=true;
   if(e.code==='Space'&&!e.repeat)jumpReq=true;
   if(e.code==='Escape'&&!document.pointerLockElement)openPause();
+  if(e.code.startsWith('Digit')){
+    const n = parseInt(e.code.replace('Digit',''));
+    if(n>=1 && n<=BLOCK_TYPES.length){
+      selectedBlockType = n-1;
+      updatePaletteSelection();
+      toast(BLOCK_TYPES[selectedBlockType].name);
+    }
+  }
 });
 addEventListener('keyup',e=>{keys[e.code]=false;});
 
@@ -394,78 +637,41 @@ document.addEventListener('pointerlockchange',()=>{
   if(!document.pointerLockElement&&state==='play')openPause();
 });
 
-// --- LÓGICA DE CÂMERA TOUCH CORRIGIDA ---
 let lookId=null,lx=0,ly=0;
 canvas.addEventListener('pointerdown',e=>{
   if(state!=='play') return;
-  // Se for toque, ativa a câmera
-  if(e.pointerType==='touch'){
-    lookId=e.pointerId;
-    lx=e.clientX;
-    ly=e.clientY;
-    e.preventDefault(); // Previne comportamentos padrão do navegador
-  }
+  if(e.pointerType==='touch'){ lookId=e.pointerId; lx=e.clientX; ly=e.clientY; e.preventDefault(); }
 }, {passive:false});
-
 canvas.addEventListener('pointermove',e=>{
   if(e.pointerId!==lookId) return;
   P.yaw -= (e.clientX - lx) * 0.005;
   P.pitch = clamp(P.pitch - (e.clientY - ly) * 0.005, -1.5, 1.5);
-  lx = e.clientX;
-  ly = e.clientY;
-  e.preventDefault();
+  lx = e.clientX; ly = e.clientY; e.preventDefault();
 }, {passive:false});
-
-const endLook = e => {
-  if(e.pointerId === lookId) lookId = null;
-};
+const endLook = e => { if(e.pointerId === lookId) lookId = null; };
 canvas.addEventListener('pointerup', endLook);
 canvas.addEventListener('pointercancel', endLook);
 canvas.addEventListener('pointerleave', endLook);
-// ----------------------------------------
 
 const joyEl=$('#joy'),knob=$('#knob');
 function moveJoy(e){
   const r = joyEl.getBoundingClientRect();
-  const cx = r.left + r.width / 2;
-  const cy = r.top + r.height / 2;
-  let dx = e.clientX - cx;
-  let dy = e.clientY - cy;
-  const R = r.width / 2 - 20;
-  const m = Math.hypot(dx, dy);
-  
-  if(m > R){ 
-    dx *= R / m; 
-    dy *= R / m; 
-  }
-  
-  // Joystick invertido para ficar correto (arrastar para cima = frente)
-  joy.x = dx / R;
-  joy.y = -dy / R; // <-- AQUI ESTAVA O BUG, O EIXO Y ESTAVA INVERTIDO
-  
+  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  let dx = e.clientX - cx, dy = e.clientY - cy;
+  const R = r.width / 2 - 20, m = Math.hypot(dx, dy);
+  if(m > R){ dx *= R / m; dy *= R / m; }
+  joy.x = dx / R; joy.y = -dy / R;
   knob.style.transform = `translate(${dx}px, ${dy}px)`;
 }
-
 joyEl.addEventListener('pointerdown', e => {
-  joyId = e.pointerId;
-  joyEl.setPointerCapture(e.pointerId);
-  moveJoy(e);
-  e.preventDefault();
+  joyId = e.pointerId; joyEl.setPointerCapture(e.pointerId);
+  moveJoy(e); e.preventDefault();
 }, {passive:false});
-
 joyEl.addEventListener('pointermove', e => {
-  if(e.pointerId === joyId) {
-    moveJoy(e);
-    e.preventDefault();
-  }
+  if(e.pointerId === joyId) { moveJoy(e); e.preventDefault(); }
 }, {passive:false});
-
 const endJoy = e => {
-  if(e.pointerId === joyId) {
-    joyId = null;
-    joy.x = joy.y = 0;
-    knob.style.transform = '';
-  }
+  if(e.pointerId === joyId) { joyId = null; joy.x = joy.y = 0; knob.style.transform = ''; }
 };
 joyEl.addEventListener('pointerup', endJoy);
 joyEl.addEventListener('pointercancel', endJoy);
@@ -479,39 +685,56 @@ $('#bDig').addEventListener('pointerdown',(e)=>{ brush(-1); e.preventDefault(); 
 $('#bBuild').addEventListener('pointerdown',(e)=>{ brush(1); e.preventDefault(); });
 
 $('#bFull').addEventListener('click',()=>{
-  if(!document.fullscreenElement){
-    document.documentElement.requestFullscreen().catch(err=>{
-      console.log(`Erro ao tentar tela cheia: ${err.message}`);
-    });
-  } else {
-    document.exitFullscreen();
-  }
+  if(!document.fullscreenElement){ document.documentElement.requestFullscreen().catch(()=>{}); }
+  else { document.exitFullscreen(); }
+});
+$('#bPalette').addEventListener('click', ()=>{
+  const pal = $('#palette');
+  pal.style.display = pal.style.display === 'flex' ? 'none' : 'flex';
 });
 
-/* ---------- Física e atualização ---------- */
+/* ---------- Paleta ---------- */
+function buildPalette(){
+  const pal = $('#palette');
+  pal.innerHTML = '';
+  BLOCK_TYPES.forEach((bt, i) => {
+    const div = document.createElement('div');
+    div.className = 'pal-item' + (i === selectedBlockType ? ' sel' : '');
+    div.style.background = '#' + bt.color.toString(16).padStart(6, '0');
+    div.title = bt.name;
+    div.addEventListener('click', () => { selectedBlockType = i; updatePaletteSelection(); toast(bt.name); });
+    pal.appendChild(div);
+  });
+}
+function updatePaletteSelection(){
+  document.querySelectorAll('.pal-item').forEach((el, i) => {
+    el.classList.toggle('sel', i === selectedBlockType);
+  });
+}
+
+/* ---------- Física ---------- */
 function update(dt){
-  // Agora joy.y positivo significa ir para frente
   let ix = (keys.KeyD?1:0) - (keys.KeyA?1:0) + joy.x;
   let iy = (keys.KeyW?1:0) - (keys.KeyS?1:0) + joy.y; 
-  
   const L = Math.hypot(ix, iy);
   if(L > 1){ ix /= L; iy /= L; }
-  
   const run = keys.ShiftLeft || keys.ShiftRight || touchRun;
   const sp = (run ? 7 : 4.4) * dt;
   const sy = Math.sin(P.yaw), cy = Math.cos(P.yaw);
-  
-  // Movimentação corrigida com base no yaw da câmera
+
   P.x += (cy * ix - sy * iy) * sp;
   P.z += (-sy * ix - cy * iy) * sp;
-  
+
   P.vy -= 26 * dt;
   if(jumpReq && P.onGround){ P.vy = 8.6; P.onGround = false; }
   jumpReq = false;
   P.y += P.vy * dt;
-  
+
+  P.onGround = false;
   const g = world.groundAt(P.x, P.z) + EYE;
-  if(P.y <= g){ P.y = g; P.vy = 0; P.onGround = true; } else { P.onGround = false; }
+  if(P.y <= g){ P.y = g; P.vy = 0; P.onGround = true; }
+
+  collideVoxels();
 
   camera.position.set(P.x, P.y, P.z);
   camera.rotation.set(P.pitch, P.yaw, 0, 'YXZ');
@@ -520,7 +743,7 @@ function update(dt){
   stream();
 }
 
-/* ---------- Loop, FPS e HUD ---------- */
+/* ---------- Loop ---------- */
 const hud=$('#hud');
 let last=performance.now(),acc=0,frames=0,fps=0,hudT=0;
 function loop(now){
@@ -534,13 +757,13 @@ function loop(now){
   if(state==='play'&&world&&hudT>.2){
     hudT=0;
     const h=world.height(P.x,P.z),b=BIO[world.biome(P.x,P.z,h)];
-    hud.textContent=`FPS: ${fps}\nBioma: ${b.n}\nPos: ${P.x.toFixed(0)}, ${P.y.toFixed(1)}, ${P.z.toFixed(0)}\nChunks: ${chunks.size}  Draw: ${renderer.info.render.calls}\nSeed: ${cur.seed}`;
+    hud.textContent=`FPS: ${fps}\nBioma: ${b.n}\nPos: ${P.x.toFixed(0)}, ${P.y.toFixed(1)}, ${P.z.toFixed(0)}\nVoxels: ${world.voxels.size}\nBloco: ${BLOCK_TYPES[selectedBlockType].name}\nSeed: ${cur.seed}`;
   }
 }
 requestAnimationFrame(loop);
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight,false);});
 
-/* ---------- IndexedDB ---------- */
+/* ---------- DB ---------- */
 let dbh;
 const dbReady=new Promise((res,rej)=>{
   const r=indexedDB.open('mundo-infinito',1);
@@ -562,6 +785,7 @@ async function save(){
   await tx('readwrite',s=>s.put({
     id:cur.id,name:cur.name,seed:cur.seed,
     edits:[...world.edits],
+    voxels:[...world.voxels],
     player:{x:P.x,y:P.y,z:P.z,yaw:P.yaw,pitch:P.pitch},
     updated:Date.now()
   }));
@@ -585,12 +809,14 @@ async function refreshSaves(){
   }
 }
 
-/* ---------- Menus e estados ---------- */
+/* ---------- Menus ---------- */
 function showMain(){
   state='menu';
   $('#mainMenu').style.display='block';$('#pauseMenu').style.display='none';
   $('#menu').style.display='flex';$('#pad').style.display='none';
-  $('#hud').style.display='none';$('#bPause').style.display='none';$('#bFull').style.display='none';
+  $('#hud').style.display='none';$('#crosshair').style.display='none';
+  $('#bPause').style.display='none';$('#bFull').style.display='none';$('#bPalette').style.display='none';
+  $('#palette').style.display='none';
   refreshSaves();
 }
 function openPause(){
@@ -598,27 +824,49 @@ function openPause(){
   state='pause';
   for(const k in keys)keys[k]=false;
   $('#mainMenu').style.display='none';$('#pauseMenu').style.display='block';
-  $('#menu').style.display='flex';$('#pad').style.display='none';$('#bFull').style.display='none';
+  $('#menu').style.display='flex';$('#pad').style.display='none';
+  $('#crosshair').style.display='none';
+  $('#bFull').style.display='none';$('#bPalette').style.display='none';
+  $('#palette').style.display='none';
   try{document.exitPointerLock();}catch{}
   save();
 }
 function resume(){
   state='play';
   $('#menu').style.display='none';
-  $('#bFull').style.display='block';
+  $('#bFull').style.display='block';$('#bPalette').style.display='block';
+  $('#crosshair').style.display='block';
   if(isTouch)$('#pad').style.display='block';
   else{try{canvas.requestPointerLock();}catch{}}
 }
 async function startWorld(d){
   cur={id:d.id||'w'+Date.now(),name:d.name||'Mundo',seed:String(d.seed)};
   world=new World(cur.seed,new Map(d.edits||[]));
+
   for(const c of chunks.values())unloadChunk(c);
   chunks.clear();queue.length=0;queued.clear();
+
+  // Limpa voxels
+  for(const im of voxelInstanced){ im.count = 0; im.instanceMatrix.needsUpdate = true; }
+  voxelIndex.clear();
+
+  // Carrega voxels salvos
+  if(d.voxels){
+    for(const [k,v] of d.voxels){
+      world.voxels.set(k, v);
+      voxelIndex.set(k, {type: v.type, idx: -1});
+    }
+    // Reconstrói InstancedMeshes
+    for(let t=0; t<BLOCK_TYPES.length; t++) rebuildInstanced(t);
+  }
+
   const p=d.player||(()=>{const s=findSpawn(world);return{x:s.x,y:world.groundAt(s.x,s.z)+EYE,z:s.z,yaw:0,pitch:0};})();
   Object.assign(P,{x:p.x,y:p.y,z:p.z,yaw:p.yaw||0,pitch:p.pitch||0,vy:0,onGround:false});
   for(const k in keys)keys[k]=false;
   $('#menu').style.display='none';
-  $('#hud').style.display='block';$('#bPause').style.display='block';$('#bFull').style.display='block';
+  $('#hud').style.display='block';$('#bPause').style.display='block';
+  $('#bFull').style.display='block';$('#bPalette').style.display='block';
+  $('#crosshair').style.display='block';
   state='play';
   if(isTouch)$('#pad').style.display='block';
   else{try{canvas.requestPointerLock();}catch{}}
@@ -637,6 +885,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden&&state!=='m
 setInterval(()=>{if(state==='play')save();},20000);
 
 $('#wseed').value=Math.random().toString(36).slice(2,10);
+buildPalette();
 dbReady.then(showMain).catch(()=>{toast('IndexedDB indisponível');showMain();});
 </script>
 </body>
