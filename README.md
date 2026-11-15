@@ -3,7 +3,7 @@
 Um mundo 3D procedural gerado diretamente no navegador! Explore biomas incríveis, montanhas gigantes, florestas e vales, tudo renderizado de forma fluida.
 
 ## 🛠️ Tecnologias Utilizadas
-- **Three.js** (ou WebGL) para renderização 3D.
+- **Three.js** para renderização 3D.
 - **JavaScript** para a lógica do jogo e geração procedural (seed).
 - **Vite** / HTML5 puro para rodar direto no navegador.
 
